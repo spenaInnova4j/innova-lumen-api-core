@@ -1,0 +1,1 @@
+amplifica-api-core
