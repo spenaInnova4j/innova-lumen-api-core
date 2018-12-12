@@ -17,6 +17,24 @@ $router->get('/', function () use ($router) {
 
 $router->group(
     ['middleware' => 'auth:api'], function () use ($router) {
-        $router->get('/courses', 'CourseController@index');
+        // Remover el token 
+        $router->post('/logout', 'Controller@logout');
+        // Refresca el token
+        $router->post('refresh-token', function () use ($router) {
+            $refresh = app()->make('request')->input("refresh_token");
+            return (new \App\Auth\Proxy())->attemptRefresh(["refresh_token" => $refresh]);
+        });
     }
 );
+
+$router->group(['namespace' => 'App\Http\Controllers'], function($group) use($router) {
+
+    // Permite el inicio de sesion 
+    $group->post('login', function () use ($router) {
+        $username = app()->make('request')->input("email");
+        $password = app()->make('request')->input("password");
+        return (new \App\Auth\Proxy())->attemptLogin(["username" => $username, "password" => $password]);
+    });
+});
+
+
