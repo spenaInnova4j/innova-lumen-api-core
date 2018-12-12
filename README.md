@@ -2,6 +2,7 @@ Amplifica Lumen Api Core
 
 Pasos para instalar
  * Ejecutar el comando php artisan migrate, de manera que se creen las nuevas tablas de OAUTH2 y usuario en la base de datos.
+ * ejecutar el comando php artisan db:seed pata agregar el usuario por defecto
  * Ejecutar el comando php artisan passport:install, para crear las claves de encriptación en la tabla "oauth_clients".
  
  NOTA: Si quisiéramos crear más claves, podríamos lanzar los siguientes comandos:

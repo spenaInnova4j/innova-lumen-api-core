@@ -7,3 +7,4 @@ Homestead.yaml
 .env.*.php
 .env.php
 composer\.lock
+/.vscode
