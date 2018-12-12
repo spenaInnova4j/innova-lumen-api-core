@@ -105,5 +105,6 @@ $app->router->group([
 });
 
 $app->configure('auth');
+$app->configure('cors');
 
 return $app;

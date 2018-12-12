@@ -17,17 +17,22 @@ class CorsMiddleware {
     {
         $config = config('cors');
 
+        if ($request->isMethod('OPTIONS')) {
+            return response()->json(null, 200, $config['headers']);
+        }
+
         $response = $next($request);
 
-        // if (!($response instanceof BinaryFileResponse))
-        //     $response->withHeaders($config['headers']);
+        if (!($response instanceof BinaryFileResponse)) {
+            foreach ($config['headers'] as $header => $value) {
+                $response->headers->set($header, $value);
+            }
+        }
 
         if (isset($_SERVER['HTTP_ORIGIN']) && $config['credentials']
             && in_array(($origin = $_SERVER['HTTP_ORIGIN']), $config['origins'])) {
 
-            $response
-                ->header('Access-Control-Allow-Credentials', 'true')
-                ->header('Access-Control-Allow-Origin', $origin);
+            $response->header->set('Access-Control-Allow-Origin', $origin);
         }
 
         return $response;
